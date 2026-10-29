@@ -7,11 +7,21 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <main class="empty-screen" aria-label="Хлопающие руки">
+  <main class="empty-screen" aria-label="Игра">
     <div class="clap" aria-hidden="true">
       <span class="hand hand-left">🖐🏻</span>
       <span class="hand hand-right">🖐🏻</span>
     </div>
+    <button class="clap-button" id="clapButton" type="button">Хлопнуть</button>
   </main>
+  <script>
+    const button = document.getElementById('clapButton');
+    const hands = document.querySelector('.clap');
+    button.addEventListener('click', () => {
+      hands.classList.remove('clapping');
+      void hands.offsetWidth;
+      hands.classList.add('clapping');
+    });
+  </script>
 </body>
 </html>
