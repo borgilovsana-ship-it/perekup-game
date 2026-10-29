@@ -8,16 +8,31 @@
 </head>
 <body>
   <main class="empty-screen" aria-label="Игра">
-    <img class="hands-image" src="file_0000000001ec81f49b61997a4872070e.png" alt="Две настоящие руки для хлопка" />
+    <div class="clap" aria-label="Руки для хлопка">
+      <svg class="hand hand-left" viewBox="0 0 260 300" role="img" aria-label="Левая рука">
+        <defs><linearGradient id="skinL" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffe0bd"/><stop offset=".48" stop-color="#e9ad80"/><stop offset="1" stop-color="#bd7955"/></linearGradient></defs>
+        <path class="skin" fill="url(#skinL)" stroke="#9d6248" stroke-width="3" stroke-linejoin="round" d="M67 278 L69 224 Q48 210 39 183 L18 139 Q11 122 26 113 Q42 104 52 123 L70 151 L72 55 Q72 35 89 35 Q105 35 105 55 L105 116 L111 28 Q112 8 129 9 Q146 10 145 30 L143 116 L153 42 Q155 22 171 25 Q187 28 183 47 L174 124 L192 70 Q198 52 213 60 Q227 67 218 87 L196 158 Q185 198 158 221 L153 278 Z"/>
+        <path d="M82 59 Q88 50 97 59 M119 31 Q128 22 137 32 M160 44 Q169 37 176 47 M199 72 Q207 68 212 77" fill="none" stroke="#f8d1b1" stroke-width="5" stroke-linecap="round"/>
+        <path d="M75 225 Q108 241 151 222" fill="none" stroke="#b97656" stroke-width="3" opacity=".65"/>
+      </svg>
+      <svg class="hand hand-right" viewBox="0 0 260 300" role="img" aria-label="Правая рука">
+        <defs><linearGradient id="skinR" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffe0bd"/><stop offset=".48" stop-color="#e9ad80"/><stop offset="1" stop-color="#bd7955"/></linearGradient></defs>
+        <path class="skin" fill="url(#skinR)" stroke="#9d6248" stroke-width="3" stroke-linejoin="round" d="M67 278 L69 224 Q48 210 39 183 L18 139 Q11 122 26 113 Q42 104 52 123 L70 151 L72 55 Q72 35 89 35 Q105 35 105 55 L105 116 L111 28 Q112 8 129 9 Q146 10 145 30 L143 116 L153 42 Q155 22 171 25 Q187 28 183 47 L174 124 L192 70 Q198 52 213 60 Q227 67 218 87 L196 158 Q185 198 158 221 L153 278 Z"/>
+        <path d="M82 59 Q88 50 97 59 M119 31 Q128 22 137 32 M160 44 Q169 37 176 47 M199 72 Q207 68 212 77" fill="none" stroke="#f8d1b1" stroke-width="5" stroke-linecap="round"/>
+        <path d="M75 225 Q108 241 151 222" fill="none" stroke="#b97656" stroke-width="3" opacity=".65"/>
+      </svg>
+      <span class="impact" aria-hidden="true">✦</span>
+    </div>
     <button class="clap-button" id="clapButton" type="button">Хлопнуть</button>
   </main>
   <script>
     const button = document.getElementById('clapButton');
-    const hands = document.querySelector('.hands-image');
+    const hands = document.querySelector('.clap');
     button.addEventListener('click', () => {
       hands.classList.remove('clapping');
       void hands.offsetWidth;
       hands.classList.add('clapping');
+      window.setTimeout(() => hands.classList.remove('clapping'), 420);
     });
   </script>
 </body>
