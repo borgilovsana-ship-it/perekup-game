@@ -8,15 +8,12 @@
 </head>
 <body>
   <main class="empty-screen" aria-label="Игра">
-    <div class="clap" aria-hidden="true">
-      <span class="hand hand-left">🖐🏻</span>
-      <span class="hand hand-right">🖐🏻</span>
-    </div>
+    <img class="hands-image" src="file_00000000001ec81f49b61997a4872070e.png" alt="Две настоящие руки для хлопка" />
     <button class="clap-button" id="clapButton" type="button">Хлопнуть</button>
   </main>
   <script>
     const button = document.getElementById('clapButton');
-    const hands = document.querySelector('.clap');
+    const hands = document.querySelector('.hands-image');
     button.addEventListener('click', () => {
       hands.classList.remove('clapping');
       void hands.offsetWidth;
