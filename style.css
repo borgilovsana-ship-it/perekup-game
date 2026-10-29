@@ -10,8 +10,8 @@ body{min-height:100vh;background:#08090d;overflow:hidden}
 .clapping .hand-left{animation:clap-left .42s cubic-bezier(.2,.8,.2,1)}
 .clapping .hand-right{animation:clap-right .42s cubic-bezier(.2,.8,.2,1)}
 .clapping .impact{animation:impact .42s ease-out}
-@keyframes clap-left{0%,100%{transform:translateX(0) rotate(-10deg)}52%{transform:translateX(42%) rotate(0deg)}70%{transform:translateX(39%) rotate(0deg)}}
-@keyframes clap-right{0%,100%{transform:scaleX(-1) rotate(-10deg)}52%{transform:scaleX(-1) translateX(42%) rotate(0deg)}70%{transform:scaleX(-1) translateX(39%) rotate(0deg)}}
+@keyframes clap-left{0%,100%{transform:translateX(0) rotate(-10deg)}52%{transform:translateX(58%) rotate(0deg)}68%{transform:translateX(55%) rotate(0deg)}}
+@keyframes clap-right{0%,100%{transform:scaleX(-1) rotate(-10deg)}52%{transform:scaleX(-1) translateX(58%) rotate(0deg)}68%{transform:scaleX(-1) translateX(55%) rotate(0deg)}}
 @keyframes impact{0%,100%{opacity:0;transform:translate(-50%,-50%) scale(0)}52%{opacity:1;transform:translate(-50%,-50%) scale(1.2)}72%{opacity:.8;transform:translate(-50%,-50%) scale(1)}}
 .clap-button{position:fixed;z-index:2;bottom:28px;left:50%;transform:translateX(-50%);border:0;border-radius:12px;padding:16px 42px;background:#a8ff3e;color:#08090d;font-size:17px;font-weight:900;cursor:pointer;box-shadow:0 8px 30px rgba(168,255,62,.18);transition:transform .15s ease,filter .15s ease}
 .clap-button:hover{filter:brightness(1.08);transform:translateX(-50%) translateY(-2px)}
