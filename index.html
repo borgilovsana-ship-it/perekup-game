@@ -1,19 +1,44 @@
-<!doctype html><html lang="ru"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Hypergamy</title><link rel="stylesheet" href="style.css"></head><body><main class="empty-screen"><div id="scene"></div><button class="clap-button" id="clapButton">Хлопнуть</button><div class="hint">НАЖМИ, ЧТОБЫ ХЛОПНУТЬ</div></main><script type="module">
-import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
-const host=document.querySelector('#scene'),scene=new THREE.Scene();scene.background=new THREE.Color('#090a0e');
-const camera=new THREE.PerspectiveCamera(32,innerWidth/innerHeight,.1,100);camera.position.z=10;
-const renderer=new THREE.WebGLRenderer({antialias:true});renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.setSize(innerWidth,innerHeight);renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;host.appendChild(renderer.domElement);
-scene.add(new THREE.HemisphereLight(0xffe5cf,0x33212a,2));const light=new THREE.DirectionalLight(0xffd3b0,4);light.position.set(-3,5,7);scene.add(light);const rim=new THREE.PointLight(0x8ca8ff,22);rim.position.set(3,1,-2);scene.add(rim);
-const skin=new THREE.MeshStandardMaterial({color:0xd99a70,roughness:.42}),lightSkin=new THREE.MeshStandardMaterial({color:0xf0b88d,roughness:.38}),nail=new THREE.MeshStandardMaterial({color:0xf5d5c0,roughness:.3}),creaseMat=new THREE.MeshStandardMaterial({color:0xb97757});
-const sphere=new THREE.SphereGeometry(1,24,16);
-function ball(g,x,y,z,sx,sy,sz,mat=skin,rot=0){let m=new THREE.Mesh(sphere,mat);m.position.set(x,y,z);m.scale.set(sx,sy,sz);m.rotation.z=rot;g.add(m);return m}
-function link(g,a,b,r,mat){let A=new THREE.Vector3(...a),B=new THREE.Vector3(...b),d=B.clone().sub(A);let m=new THREE.Mesh(new THREE.CapsuleGeometry(r,Math.max(.01,d.length()-2*r),5,12),mat);m.position.copy(A).add(B).multiplyScalar(.5);m.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),d.normalize());g.add(m);return m}
-function hand(mirror){let g=new THREE.Group();g.scale.x=mirror?-1:1;scene.add(g);ball(g,0,-.48,0,.58,.8,.24);ball(g,0,-1.13,0,.4,.64,.19);
-const xs=[-.42,-.14,.14,.42],lens=[.83,1.06,1,.76];xs.forEach((x,i)=>{let y=lens[i],r=i===1?.12:.105;link(g,[x*.8,0,0],[x,y*.48,0],r,lightSkin);ball(g,x,y*.48,0,r,r,r,skin);link(g,[x,y*.48,0],[x,y,0],r*.88,lightSkin);ball(g,x,y,0,r*.9,r*.9,r*.82,lightSkin);ball(g,x,y+.02,.095,r*.48,r*.3,.025,nail);});
-link(g,[-.44,-.2,.02],[-.73,.08,.02],.15,lightSkin);ball(g,-.73,.08,.02,.16,.17,.14,lightSkin,-.5);link(g,[-.73,.08,.02],[-.67,.35,.02],.13,lightSkin);ball(g,-.67,.35,.02,.14,.15,.12,lightSkin,-.25);
-function line(points){let c=new THREE.CatmullRomCurve3(points.map(p=>new THREE.Vector3(...p)));let m=new THREE.Mesh(new THREE.TubeGeometry(c,16,.009,5,false),creaseMat);m.position.z=.23;g.add(m)}line([[-.34,-.4,.02],[-.16,-.52,.02],[.08,-.57,.02],[.32,-.45,.02]]);line([[-.25,-.75,.02],[-.04,-.82,.02],[.2,-.78,.02]]);return g}
-const L=hand(false),R=hand(true);L.position.set(-1.5,-.12,0);R.position.set(1.5,-.12,0);L.rotation.z=-.08;R.rotation.z=-.08;
-let active=false,start=0;const btn=document.querySelector('#clapButton');btn.onclick=()=>{if(!active){active=true;start=performance.now();btn.textContent='ХЛОПОК!'}};
-function frame(now){requestAnimationFrame(frame);if(active){let t=Math.min((now-start)/520,1),p=t<.58?1-Math.pow(1-t/.58,3):Math.pow((t-.58)/.42,2),gap=t<.58?1.5*(1-p):.025+1.475*p;L.position.x=-gap;R.position.x=gap;let squash=t>.5&&t<.7?Math.sin((t-.5)/.2*Math.PI)*.06:0;L.scale.y=R.scale.y=1-squash;if(t>=1){active=false;L.position.x=-1.5;R.position.x=1.5;L.scale.y=R.scale.y=1;btn.textContent='Хлопнуть'}}else{L.position.y=-.12+Math.sin(now*.002)*.02;R.position.y=-.12+Math.sin(now*.002+.3)*.02}renderer.render(scene,camera)}requestAnimationFrame(frame);
-addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,2))});
-</script></body></html>
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Hypergamy</title><link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="empty-screen" aria-label="Hypergamy">
+  <div class="stage">
+    <svg class="sticker hand-left" viewBox="0 0 260 320" role="img" aria-label="Ладонь">
+      <defs>
+        <linearGradient id="palmL" x1="0" y1="0" x2=".9" y2="1"><stop stop-color="#ffd7a7"/><stop offset=".48" stop-color="#ffad72"/><stop offset="1" stop-color="#f07852"/></linearGradient>
+        <linearGradient id="fingerL" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffe2b8"/><stop offset="1" stop-color="#f58a60"/></linearGradient>
+      </defs>
+      <path class="outline" d="M73 298 Q60 286 57 262 L47 202 Q43 183 29 162 L12 136 Q4 122 16 112 Q28 103 39 119 L64 151 L63 53 Q63 33 80 32 Q98 32 98 53 L99 119 L105 24 Q106 5 124 5 Q143 5 143 25 L140 119 L153 40 Q155 21 173 24 Q191 27 187 46 L173 125 L195 69 Q203 52 218 60 Q232 68 224 86 L194 159 Q184 186 177 213 L173 298Z"/>
+      <path class="skin" d="M73 298 Q60 286 57 262 L47 202 Q43 183 29 162 L12 136 Q4 122 16 112 Q28 103 39 119 L64 151 L63 53 Q63 33 80 32 Q98 32 98 53 L99 119 L105 24 Q106 5 124 5 Q143 5 143 25 L140 119 L153 40 Q155 21 173 24 Q191 27 187 46 L173 125 L195 69 Q203 52 218 60 Q232 68 224 86 L194 159 Q184 186 177 213 L173 298Z"/>
+      <path class="shine" d="M75 54 L77 142 M116 26 L115 118 M165 43 L158 112 M209 72 L190 122"/>
+      <path class="crease" d="M76 190 Q112 209 158 187 M81 224 Q116 240 154 222 M88 255 Q112 264 137 254"/>
+      <path class="nail" d="M70 48 Q70 36 80 36 Q91 36 91 49 L91 68 L70 68Z M112 22 Q113 10 124 10 Q135 10 136 23 L135 43 L112 43Z M161 39 Q163 28 173 29 Q184 31 181 43 L177 61 L157 57Z M204 70 Q208 60 217 65 Q225 70 220 81 L213 94 L197 86Z"/>
+      <path class="cuff" d="M72 277 Q121 292 175 276 L173 306 L75 306Z"/>
+    </svg>
+    <svg class="sticker hand-right" viewBox="0 0 260 320" role="img" aria-label="Ладонь">
+      <defs>
+        <linearGradient id="palmR" x1="0" y1="0" x2=".9" y2="1"><stop stop-color="#ffd7a7"/><stop offset=".48" stop-color="#ffad72"/><stop offset="1" stop-color="#f07852"/></linearGradient>
+        <linearGradient id="fingerR" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffe2b8"/><stop offset="1" stop-color="#f58a60"/></linearGradient>
+      </defs>
+      <g transform="translate(260 0) scale(-1 1)">
+      <path class="outline" d="M73 298 Q60 286 57 262 L47 202 Q43 183 29 162 L12 136 Q4 122 16 112 Q28 103 39 119 L64 151 L63 53 Q63 33 80 32 Q98 32 98 53 L99 119 L105 24 Q106 5 124 5 Q143 5 143 25 L140 119 L153 40 Q155 21 173 24 Q191 27 187 46 L173 125 L195 69 Q203 52 218 60 Q232 68 224 86 L194 159 Q184 186 177 213 L173 298Z"/>
+      <path class="skin" d="M73 298 Q60 286 57 262 L47 202 Q43 183 29 162 L12 136 Q4 122 16 112 Q28 103 39 119 L64 151 L63 53 Q63 33 80 32 Q98 32 98 53 L99 119 L105 24 Q106 5 124 5 Q143 5 143 25 L140 119 L153 40 Q155 21 173 24 Q191 27 187 46 L173 125 L195 69 Q203 52 218 60 Q232 68 224 86 L194 159 Q184 186 177 213 L173 298Z"/>
+      <path class="shine" d="M75 54 L77 142 M116 26 L115 118 M165 43 L158 112 M209 72 L190 122"/>
+      <path class="crease" d="M76 190 Q112 209 158 187 M81 224 Q116 240 154 222 M88 255 Q112 264 137 254"/>
+      <path class="nail" d="M70 48 Q70 36 80 36 Q91 36 91 49 L91 68 L70 68Z M112 22 Q113 10 124 10 Q135 10 136 23 L135 43 L112 43Z M161 39 Q163 28 173 29 Q184 31 181 43 L177 61 L157 57Z M204 70 Q208 60 217 65 Q225 70 220 81 L213 94 L197 86Z"/>
+      <path class="cuff" d="M72 277 Q121 292 175 276 L173 306 L75 306Z"/>
+      </g>
+    </svg>
+    <div class="spark spark-one">✦</div><div class="spark spark-two">✧</div>
+  </div>
+  <button class="clap-button" id="clapButton">Хлопнуть</button>
+  <div class="hint">НАЖМИ, ЧТОБЫ ХЛОПНУТЬ</div>
+</main>
+<script>
+const stage=document.querySelector('.stage'),button=document.querySelector('#clapButton');
+button.addEventListener('click',()=>{if(stage.classList.contains('clapping'))return;stage.classList.add('clapping');button.textContent='ХЛОПОК!';setTimeout(()=>{stage.classList.remove('clapping');button.textContent='Хлопнуть'},500)});
+</script>
+</body></html>
