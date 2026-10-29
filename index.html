@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hypergamy</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="game">
+    <header class="topbar">
+      <div><span class="eyebrow">SIMULATION</span><h1>Hypergamy</h1></div>
+      <div class="money">$<span id="money">10,000</span></div>
+    </header>
+
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="tag">BUILD YOUR VALUE</p>
+        <h2>Начни с нуля.<br><span>Поднимись наверх.</span></h2>
+        <p>Развивай навыки, принимай решения и создавай свою карьеру. Каждый выбор меняет твою историю.</p>
+        <button id="start">Начать игру →</button>
+      </div>
+      <div class="stat-card">
+        <div><span>LEVEL</span><b id="level">1</b></div>
+        <div><span>STATUS</span><b id="status">Новичок</b></div>
+        <div><span>NET WORTH</span><b id="worth">$10,000</b></div>
+      </div>
+    </section>
+
+    <section class="panel" id="actions">
+      <h3>Твои действия</h3>
+      <div class="actions">
+        <button class="action" data-action="work">💼 <strong>Работать</strong><small>+$1,200 · +10 XP</small></button>
+        <button class="action" data-action="learn">📚 <strong>Учиться</strong><small>−$300 · +25 XP</small></button>
+        <button class="action" data-action="invest">📈 <strong>Инвестировать</strong><small>−$1,000 · риск / награда</small></button>
+      </div>
+      <p class="message" id="message">Сделай первый ход.</p>
+    </section>
+  </main>
+  <script src="game.js"></script>
+</body>
+</html>
